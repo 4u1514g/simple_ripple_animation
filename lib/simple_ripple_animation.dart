@@ -65,7 +65,8 @@ class RippleAnimationState extends State<RippleAnimation>
   }
 
   @override
-  Widget build(BuildContext context) => CustomPaint(
+  Widget build(BuildContext context) =>
+      CustomPaint(
         painter: CirclePainter(
           _controller,
           color: widget.color,
@@ -85,8 +86,7 @@ class RippleAnimationState extends State<RippleAnimation>
 /// Creating a Circular painter for clipping the rects and creating circle shape
 class CirclePainter extends CustomPainter {
   ///initialize the painter
-  CirclePainter(
-    this._animation, {
+  CirclePainter(this._animation, {
     required this.wavesCount,
     required this.color,
     this.minRadius,
@@ -109,7 +109,13 @@ class CirclePainter extends CustomPainter {
     final Rect rect = Rect.fromLTRB(0, 0, size.width, size.height);
     for (int wave = 0; wave <= wavesCount; wave++) {
       circle(
-          canvas, rect, minRadius, wave, _animation!.value, wavesCount, color);
+          canvas,
+          rect,
+          minRadius,
+          wave,
+          _animation!.value,
+          wavesCount,
+          color);
     }
   }
 
@@ -120,11 +126,11 @@ class CirclePainter extends CustomPainter {
     double r;
     if (wave != 0) {
       final double opacity =
-          (1 - ((wave - 1) / length!) - value).clamp(0.0, 1.0);
+      (1 - ((wave - 1) / length!) - value).clamp(0.0, 1.0);
       color = color.withOpacity(opacity);
-
-      r = minRadius! * (1 + (wave * value)) * value;
-      final Paint paint = Paint()..color = color;
+      r = minRadius! * (1 + (wave * value / 2)) * (value / 2);
+      final Paint paint = Paint()
+        ..color = color;
       canvas.drawCircle(rect.center, r, paint);
     }
   }
